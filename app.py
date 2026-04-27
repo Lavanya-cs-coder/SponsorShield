@@ -2,7 +2,7 @@ import streamlit as st
 import tempfile
 import os
 from PIL import Image
-from backend_code import analyze_image_complete, get_perceptual_hash, add_to_database, load_database, generate_pdf_report
+from backend_stub import analyze_image_complete, get_perceptual_hash, add_to_database, load_database, generate_pdf_report
 
 st.set_page_config(page_title="SponsorShield", layout="wide")
 
