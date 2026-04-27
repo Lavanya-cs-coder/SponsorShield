@@ -5,8 +5,6 @@ import os
 import json
 import tempfile
 import google.generativeai as genai
-from fpdf import FPDF
-# Configure Gemini
 genai.configure(api_key="AIzaSyA8sJXR7w2exLhdIdE2yX4VGe_DFfMHno0")
 
 # ============================================================
