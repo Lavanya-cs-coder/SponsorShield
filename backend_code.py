@@ -62,17 +62,39 @@ def analyze_image_complete(image_path, database_images, stolen_db):
             best_similarity = similarity
             best_match = name
     
+    # Risk levels based on similarity
+    if best_similarity > 80:
+        verdict = "UNAUTHORIZED REUSE - HIGH RISK"
+        intent = "Malicious Theft"
+        viral = "Critical Viral"
+        risk_score = 90
+    elif best_similarity > 60:
+        verdict = "POSSIBLE MISUSE - MEDIUM RISK"
+        intent = "Unauthorized Reuse"
+        viral = "High Viral"
+        risk_score = 65
+    elif best_similarity > 40:
+        verdict = "SUSPICIOUS - LOW RISK"
+        intent = "Possible Misuse"
+        viral = "Medium Viral"
+        risk_score = 40
+    else:
+        verdict = "SAFE - NO RISK"
+        intent = "Normal Use"
+        viral = "Low Viral"
+        risk_score = 10
+    
     return {
-        'verdict': "UNAUTHORIZED REUSE" if best_similarity > 75 else "SAFE",
+        'verdict': verdict,
         'similarity': best_similarity,
         'matched_with': best_match or "None",
-        'revenue_loss': int(best_similarity * 100),
-        'risk_score': int(best_similarity),
-        'intent': "Malicious" if best_similarity > 75 else "Normal",
-        'viral_potential': "High" if best_similarity > 75 else "Low",
+        'revenue_loss': int(best_similarity * 50),
+        'risk_score': risk_score,
+        'intent': intent,
+        'viral_potential': viral,
         'logo_status': "Unknown",
-        'actions': ["Monitor usage"],
-        'report': "Analysis complete"
+        'actions': ["Monitor usage"] if best_similarity < 40 else ["Send takedown notice", "Legal action recommended"],
+        'report': f"Analysis complete. Image is {best_similarity}% similar to {best_match}"
     }
 
 print("SponsorShield Backend Loaded")
